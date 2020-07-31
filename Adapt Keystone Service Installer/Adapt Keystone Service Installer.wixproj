@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.9</ProductVersion>
+    <ProjectGuid>ec632970-e6ee-47b4-b717-55b4a57e52de</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <!--<OutputName>Adapt Keystone Service Installer</OutputName>-->
+    <OutputName>Demo Keystone console App</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <!--<Name>Adapt Keystone Service Installer</Name>-->
+    <Name>Demo Keystone console App</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bitmaps" />
+    <Folder Include="Dialogs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adapt Keystone InstallerUI.wxs" />
+    <Compile Include="Adapt Keystone Installer.wxs" />
+    <Compile Include="CustomCommon.wxs" />
+    <Compile Include="Dialogs\BrowseDlg.wxs" />
+    <Compile Include="Dialogs\CancelDlg.wxs" />
+    <Compile Include="Dialogs\ConfigFileInputDlg.wxs" />
+    <Compile Include="Dialogs\DiskCostDlg.wxs" />
+    <Compile Include="Dialogs\ErrorDlg.wxs" />
+    <Compile Include="Dialogs\ExitDialog.wxs" />
+    <Compile Include="Dialogs\FatalError.wxs" />
+    <Compile Include="Dialogs\FilesInUse.wxs" />
+    <Compile Include="Dialogs\InstallDirDlg.wxs" />
+    <Compile Include="Dialogs\InvalidConfigFileInputDlg.wxs" />
+    <Compile Include="Dialogs\InvalidDirDlg.wxs" />
+    <Compile Include="Dialogs\MaintenanceTypeDlg.wxs" />
+    <Compile Include="Dialogs\MaintenanceWelcomeDlg.wxs" />
+    <Compile Include="Dialogs\MsiRMFilesInUse.wxs" />
+    <Compile Include="Dialogs\OutOfDiskDlg.wxs" />
+    <Compile Include="Dialogs\OutOfRbDiskDlg.wxs" />
+    <Compile Include="Dialogs\ProgressDlg.wxs" />
+    <Compile Include="Dialogs\ResumeDlg.wxs" />
+    <Compile Include="Dialogs\SetupInformationDlg.wxs" />
+    <Compile Include="Dialogs\UserExit.wxs" />
+    <Compile Include="Dialogs\VerifyReadyDlg.wxs" />
+    <Compile Include="Dialogs\WaitForCostingDlg.wxs" />
+    <Compile Include="Dialogs\WelcomeDlg.wxs" />
+    <Compile Include="PrepareDlg.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WixUI_en-us.wxl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bitmaps\Adaptbannr.jpg" />
+    <Content Include="Bitmaps\Adaptdlg.jpg" />
+    <Content Include="Bitmaps\AdaptLogoVert32x32.ico" />
+    <Content Include="Bitmaps\bannrbmp.bmp" />
+    <Content Include="Bitmaps\dlgbmp.bmp" />
+    <Content Include="Bitmaps\exclamic.ico" />
+    <Content Include="Bitmaps\info.ico" />
+    <Content Include="Bitmaps\New.ico" />
+    <Content Include="Bitmaps\Up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Adapt Keystone Service InstallerCA\Adapt Keystone Service InstallerCA.csproj">
+      <Name>Adapt Keystone Service InstallerCA</Name>
+      <Project>{c20bbae3-ba2e-46ad-be9e-204cce3e4cc6}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsoleApp1\ConsoleApp1.csproj">
+      <Name>ConsoleApp1</Name>
+      <Project>{ff55b420-f1c5-4745-9f73-cfedb7c426a1}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

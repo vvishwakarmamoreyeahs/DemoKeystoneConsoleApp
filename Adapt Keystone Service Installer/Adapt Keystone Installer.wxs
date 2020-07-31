@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="ConsoleApp1" Language="1033" Version="4.3.0.1" Manufacturer="Adapt Telephony Services, LLC." UpgradeCode="{74EFD1F0-9C8C-464D-AF6B-EF5D812A9336}">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes"/>
+
+    <!-- Custom Actions -->
+    <!--
+    <Binary Id="ASAPSiteManagerClientSetupCA" SourceFile="$(var.ASAPSiteManagerClientSetupCA.TargetDir)ASAPSiteManagerClientSetupCA.CA.dll" />
+    <CustomAction Id="UpdateConfigFile" BinaryKey="ASAPSiteManagerClientSetupCA" DllEntry="UpdateConfigFile" Execute="immediate" />
+    <CustomAction Id="VerifyServerHostName" BinaryKey="ASAPSiteManagerClientSetupCA" DllEntry="VerifyServerHostName" Execute="immediate" />
+    -->
+    <Binary Id="AdaptKeystoneServiceInstallerCA" SourceFile="$(var.Adapt Keystone Service InstallerCA.TargetDir)Adapt Keystone Service InstallerCA.CA.dll" />
+    <CustomAction Id="ValidateInstallPath" Property="WIXUI_INSTALLDIR_VALID" Value="1" />
+    <CustomAction Id="VerifyConfigFileData" BinaryKey="AdaptKeystoneServiceInstallerCA" DllEntry="VerifyConfigFileData" Execute="immediate" />
+    <CustomAction Id="CheckForExistingConfigFile" BinaryKey="AdaptKeystoneServiceInstallerCA" DllEntry="CheckForExistingConfigFile" Execute="immediate" />
+    <CustomAction Id="PassData" Property="UpdateConfigFile" Value="InstallFolder=[INSTALLFOLDER];ServiceHost=[SERVICEHOST];KeystoneURL=[KEYSTONEURL];KeystoneUserName=[KEYSTONEUSERNAME];KeystonePassword=[KEYSTONEPASSWORD];KeystoneDeviceName=[KEYSTONEDEVICENAME];KeystoneDefaultTimeZone=[KEYSTONEDEFAULTTIMEZONE];" />
+    <CustomAction Id="UpdateConfigFile" BinaryKey="AdaptKeystoneServiceInstallerCA" DllEntry="UpdateConfigFile" Execute="deferred" Impersonate="no" />
+    <CustomAction Id="RemoveOriginalServiceFolder" BinaryKey="AdaptKeystoneServiceInstallerCA" DllEntry="RemoveOriginalServiceFolder" Execute="immediate" />
+    <CustomAction Id="RemoveRenamedServiceExe" BinaryKey="AdaptKeystoneServiceInstallerCA" DllEntry="RemoveRenamedServiceExe" Execute="immediate" />
+    <CustomAction Id="RenameExistingServiceExe" BinaryKey="AdaptKeystoneServiceInstallerCA" DllEntry="RenameExistingServiceExe" Execute="immediate" />
+
+    <InstallUISequence>
+      <Custom Action="CheckForExistingConfigFile" After="AppSearch">NOT Installed</Custom>
+      <Custom Action="RenameExistingServiceExe" After="CheckForExistingConfigFile">NOT Installed</Custom>
+    </InstallUISequence>
+
+    <InstallExecuteSequence>
+      <Custom Action="PassData" Before="UpdateConfigFile" />
+      <Custom Action="UpdateConfigFile" After="InstallFiles">NOT Installed</Custom>
+      <Custom Action="RemoveOriginalServiceFolder" After="UpdateConfigFile">NOT Installed</Custom>
+      <Custom Action="RemoveRenamedServiceExe" After="RemoveOriginalServiceFolder">NOT Installed</Custom>
+    </InstallExecuteSequence>
+
+    <!-- Properties -->
+    <Property Id="SERVICE_OLD_PATH">
+      <!--<DirectorySearch Path="\Adapt Keystone Service" Depth="0" AssignToProperty="yes" Id="NppFolderSearch"/>-->
+      <DirectorySearch Path="\ConsoleApp1" Depth="0" AssignToProperty="yes" Id="NppFolderSearch"/>
+    </Property>
+    <Property Id="KEYSTONEURL" ></Property>
+    <Property Id="KEYSTONEUSERNAME" ></Property>
+    <Property Id="KEYSTONEPASSWORD" ></Property>
+    <Property Id="KEYSTONEDEVICENAME" ></Property>
+    <Property Id="KEYSTONEDEFAULTTIMEZONE" ></Property>
+
+    <!--<Feature Id="ProductFeature" Title="Adapt Keystone Service Installer" Level="1">-->
+      <Feature Id="ProductFeature" Title="ConsoleApp1 Installer" Level="1">
+			<ComponentGroupRef Id="KeystoneServiceFiles" />
+		</Feature>
+
+    <!-- User Interface-->
+    <UIRef Id="AdaptKeystoneServiceInstallerUI" />
+
+  </Product>
+
+	<Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" >
+        <Directory Id="COMPANYFOLDER" Name="Adapt Telephony, LLC">
+          <!--<Directory Id="INSTALLFOLDER" Name="Adapt Keystone Service"/>-->
+          <Directory Id="INSTALLFOLDER" Name="ConsoleApp1"/>
+        </Directory>
+      </Directory>
+    </Directory>	
+  </Fragment>
+
+	<Fragment>
+    <ComponentGroup Id="KeystoneServiceFiles" Directory="INSTALLFOLDER">
+      <Component Id="cmp_AdaptKeystoneServiceEXE" Guid="{AF4A2CD9-43FE-4F6A-93D1-A1BFC73B4EEE}">
+        <File Id="fil_INSTALLFOLDER_ConsoleApp1EXE" Source="$(var.ConsoleApp1.TargetDir)\ConsoleApp1.exe" KeyPath="yes"/>
+        <ServiceInstall Id="si_AdaptKeystoneService" Name="ConsoleApp1"  DisplayName="ConsoleApp1"
+          Description="DemoKeystoneConsoleApp" Start="auto" ErrorControl="normal" Type="ownProcess" />
+        <ServiceControl Id="sc_ConsoleApp1" Name="ConsoleApp1" Stop="both" Remove="both" Wait="yes"/>
+      </Component>
+      <Component Id="cmp_AdaptKeystoneServiceEexCONFIG" Guid="{57C39A22-97A6-4DDC-BFD7-63A0579B53D8}">
+        <File Id="fil_INSTALLFOLDER_ConsoleApp1CONFIG" Source="$(var.ConsoleApp1.TargetDir)\ConsoleApp1.exe.config" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_AdaptKeystoneServicePDB" Guid="{AD28AF0A-6F7A-4331-B9C6-AC5AC2061480}">
+        <File Id="fil_INSTALLFOLDER_AdaptKeystoneServicePDB" Source="$(var.ConsoleApp1.TargetDir)ConsoleApp1.pdb" KeyPath="yes" />
+      </Component>
+      
+      <!--<Component Id="cmp_Keystone_DLL" Guid="{06C78FF6-D5C3-4084-B7EA-429290F226B3}">
+        <File Id="fil_INSTALLFOLDER_Keystone_DLL" Source="$(var.ConsoleApp1.TargetDir)\ConsoleApp1.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Keystone_PDB" Guid="{83823D93-1531-4265-AD36-AEB708AD35F9}">
+        <File Id="fil_INSTALLFOLDER_Keystone_PDB" Source="$(var.ConsoleApp1.TargetDir)\ConsoleApp1.pdb" KeyPath="yes" />
+      </Component>-->
+      <!--<Component Id="cmp_Log4netDLL" Guid="{581033C7-D16B-4DC7-B394-E247FF6F4883}">
+        <File Id="fil_INSTALLFOLDER_Log4netDLL" Source="$(var.ConsoleApp1.TargetDir)\Log4net.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="cmp_Log4netXML" Guid="{FFA0D03E-AAD0-4B3F-8358-1341615F5646}">
+        <File Id="fil_INSTALLFOLDER_Log4netXML" Source="$(var.ConsoleApp1.TargetDir)\Log4net.xml" KeyPath="yes" />
+      </Component>-->
+		<Component Id="cmp_AdaptLogoVert32x32ICO" Guid="{939CA4B0-52AC-4A61-9A5D-6B77C553FF1F}">
+			<File Id="fil_INSTALLFOLDER_AdaptLogoVert32x32ICO"
+			  Source="$(sys.SOURCEFILEDIR)Bitmaps\AdaptLogoVert32x32.ico" KeyPath="yes" />
+		</Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

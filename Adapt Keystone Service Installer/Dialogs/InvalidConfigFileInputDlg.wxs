@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Customized version of InvalidDirDlg.wxs
+  <copyright file="InvalidDirDlg.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <UI>
+            <Dialog Id="InvalidConfigFileInputDlg" Width="260" Height="105" Title="!(loc.InvalidConfigFileInputDlg_Title)">
+                <Control Id="OK" Type="PushButton" X="102" Y="77" Width="56" Height="17" Default="yes" Cancel="yes" Text="!(loc.WixUIOK)">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="Text_1" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_1)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="1"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"1"]]></Condition>
+                </Control>
+                <Control Id="Text_2" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_2)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="2"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"2"]]></Condition>
+                </Control>
+                <Control Id="Text_3" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_3)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="3"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"3"]]></Condition>
+                </Control>
+                <Control Id="Text_4" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_4)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="4"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"4"]]></Condition>
+                </Control>
+                <Control Id="Text_5" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_5)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="5"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"5"]]></Condition>
+                </Control>
+                <Control Id="Text_6" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_6)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="6"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"6"]]></Condition>
+                </Control>
+                <Control Id="Text_7" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_7)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="7"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"7"]]></Condition>
+                </Control>
+                <Control Id="Text_8" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_8)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="8"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"8"]]></Condition>
+                </Control>
+                <Control Id="Text_9" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_9)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="9"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"9"]]></Condition>
+                </Control>
+                <Control Id="Text_10" Type="Text" X="48" Y="22" Width="194" Height="42" Text="!(loc.InvalidConfigFileInputDlgText_10)">
+                    <Condition Action="show"><![CDATA[CONFIG_DATA_VALID="10"]]></Condition>
+                    <Condition Action="hide"><![CDATA[CONFIG_DATA_VALID<>"10"]]></Condition>
+                </Control>
+              <Control Id="Icon" Type="Icon" X="15" Y="15" Width="24" Height="24" ToolTip="!(loc.InvalidConfigFileInputDlgIconTooltip)" FixedSize="yes" IconSize="32" Text="!(loc.InvalidConfigFileInputDlgIcon)" />
+            </Dialog>
+        </UI>
+    </Fragment>
+</Wix>
